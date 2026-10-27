@@ -16,7 +16,8 @@ import {
   Settings,
   HelpCircle,
   FileEdit,
-  GraduationCap
+  GraduationCap,
+  Dna
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -45,6 +46,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'attendance', label: 'Attendance Sessions', icon: <CalendarCheck className="w-4 h-4" /> },
     { id: 'marks', label: 'Marks & Grading', icon: <Award className="w-4 h-4" /> },
     { id: 'courses', label: 'Courses & Curriculum', icon: <BookOpen className="w-4 h-4" /> },
+    { id: 'bioscience', label: 'Bioscience & AlphaFold Lab', icon: <Dna className="w-4 h-4 text-emerald-400" /> },
     { id: 'users', label: 'User Management', icon: <UserCheck className="w-4 h-4" /> },
     { id: 'audit', label: 'Activity Audit Log', icon: <History className="w-4 h-4" /> },
     { id: 'settings', label: 'System Diagnostics & Setup', icon: <Settings className="w-4 h-4" /> },
@@ -56,6 +58,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'attendance', label: 'Mark Attendance', icon: <CalendarCheck className="w-4 h-4" /> },
     { id: 'marks', label: 'Record Marks', icon: <Award className="w-4 h-4" /> },
     { id: 'courses', label: 'Curriculum & Syllabi', icon: <BookOpen className="w-4 h-4" /> },
+    { id: 'bioscience', label: 'Bioscience & AlphaFold Lab', icon: <Dna className="w-4 h-4 text-emerald-400" /> },
     { id: 'settings', label: 'System Information', icon: <Settings className="w-4 h-4" /> },
   ];
 
@@ -64,6 +67,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'attendance', label: 'My Attendance', icon: <CalendarCheck className="w-4 h-4" /> },
     { id: 'marks', label: 'My Grades & Marks', icon: <Award className="w-4 h-4" /> },
     { id: 'courses', label: 'Course Curriculum', icon: <BookOpen className="w-4 h-4" /> },
+    { id: 'bioscience', label: 'Bioscience & AlphaFold Lab', icon: <Dna className="w-4 h-4 text-emerald-400" /> },
     { id: 'correction', label: 'Request Profile Correction', icon: <FileEdit className="w-4 h-4" /> },
     { id: 'settings', label: 'System Information', icon: <Settings className="w-4 h-4" /> },
   ];

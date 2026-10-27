@@ -73,11 +73,25 @@ class DatabaseStore {
         durationYears: 3,
         totalSemesters: 6,
         description: 'Interdisciplinary study of business operations, organizational leadership, economics, and analytics.'
+      },
+      {
+        id: 'course-bioinfo',
+        courseCode: 'BSCBIO',
+        courseName: 'B.Sc. Bioinformatics & Computational Genomics',
+        department: 'Department of Bioscience & Bioengineering',
+        durationYears: 3,
+        totalSemesters: 6,
+        description: 'Computational molecular biology, AlphaFold protein structure prediction, genomics, and chemoinformatics.'
       }
     ];
 
     // 2. Subjects
     this.subjects = [
+      // BSCBIO (Bioscience Skills)
+      { id: 'sub-bio-af', courseId: 'course-bioinfo', subjectCode: 'BIO501', subjectName: 'Structural Bioinformatics & AlphaFold Modeling', semester: 5, credits: 4, totalHours: 60 },
+      { id: 'sub-bio-chemo', courseId: 'course-bioinfo', subjectCode: 'BIO502', subjectName: 'Chemoinformatics & Drug Discovery (PubChem)', semester: 5, credits: 4, totalHours: 60 },
+      { id: 'sub-bio-lit', courseId: 'course-bioinfo', subjectCode: 'BIO503', subjectName: 'Biomedical Literature & PubMed Research', semester: 5, credits: 3, totalHours: 45 },
+
       // BSCIT
       { id: 'sub-it-dsa', courseId: 'course-bscit', subjectCode: 'IT301', subjectName: 'Data Structures & Algorithms', semester: 3, credits: 4, totalHours: 60 },
       { id: 'sub-it-dbms', courseId: 'course-bscit', subjectCode: 'IT401', subjectName: 'Database Management Systems', semester: 4, credits: 4, totalHours: 60 },
@@ -457,6 +471,46 @@ class DatabaseStore {
         attendancePercentage: 0,
         createdAt: '2023-08-11T10:00:00Z',
         updatedAt: '2023-08-11T10:00:00Z'
+      },
+      {
+        id: 'stu-13',
+        studentId: 'STU-2024-013',
+        fullName: 'Maya Lin-Franklin',
+        rollNumber: '2024-BIO-001',
+        email: 'maya.franklin@student.college.edu',
+        phoneNumber: '+1 (555) 432-1098',
+        dateOfBirth: '2004-04-16',
+        gender: 'Female',
+        courseId: 'course-bioinfo',
+        courseName: 'B.Sc. Bioinformatics & Computational Genomics',
+        courseCode: 'BSCBIO',
+        semester: 5,
+        admissionYear: 2024,
+        address: 'Biotech Research Quad, Room 302, CA 94107',
+        academicStatus: 'Active',
+        attendancePercentage: 100,
+        createdAt: '2024-08-12T09:00:00Z',
+        updatedAt: '2024-08-12T09:00:00Z'
+      },
+      {
+        id: 'stu-14',
+        studentId: 'STU-2024-014',
+        fullName: 'Liam Watson',
+        rollNumber: '2024-BIO-002',
+        email: 'liam.watson@student.college.edu',
+        phoneNumber: '+1 (555) 543-2109',
+        dateOfBirth: '2004-11-20',
+        gender: 'Male',
+        courseId: 'course-bioinfo',
+        courseName: 'B.Sc. Bioinformatics & Computational Genomics',
+        courseCode: 'BSCBIO',
+        semester: 5,
+        admissionYear: 2024,
+        address: '88 Genome Boulevard, CA 94107',
+        academicStatus: 'Active',
+        attendancePercentage: 92,
+        createdAt: '2024-08-12T10:00:00Z',
+        updatedAt: '2024-08-12T10:00:00Z'
       }
     ];
 

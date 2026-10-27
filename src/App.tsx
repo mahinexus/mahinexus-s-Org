@@ -16,6 +16,7 @@ import { AttendancePage } from './pages/AttendancePage.tsx';
 import { MarksPage } from './pages/MarksPage.tsx';
 import { UsersManagementPage } from './pages/UsersManagementPage.tsx';
 import { SettingsPage } from './pages/SettingsPage.tsx';
+import { BioscienceWorkbench } from './components/science/BioscienceWorkbench.tsx';
 
 function MainRouter() {
   const { isAuthenticated, role } = useAuth();
@@ -50,6 +51,9 @@ function MainRouter() {
 
       case 'settings':
         return <SettingsPage />;
+
+      case 'bioscience':
+        return <BioscienceWorkbench />;
 
       case 'correction':
         return <StudentDashboard />;

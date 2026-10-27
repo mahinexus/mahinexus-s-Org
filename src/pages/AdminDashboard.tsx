@@ -22,8 +22,13 @@ import {
   ArrowRight,
   ShieldCheck,
   CheckCircle2,
-  Clock
+  Clock,
+  Dna,
+  Sparkles,
+  FlaskConical,
+  Atom
 } from 'lucide-react';
+import { BioscienceWorkbench } from '../components/science/BioscienceWorkbench.tsx';
 import {
   ResponsiveContainer,
   BarChart,
@@ -49,6 +54,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigate }) =>
   const [isAddStudentOpen, setIsAddStudentOpen] = useState(false);
   const [isAttendanceModalOpen, setIsAttendanceModalOpen] = useState(false);
   const [selectedStudentId, setSelectedStudentId] = useState<string | null>(null);
+  const [showScienceWorkbench, setShowScienceWorkbench] = useState(false);
+  const [cohortFilter, setCohortFilter] = useState<'all' | 'bioinformatics'>('all');
 
   const fetchDashboardData = async () => {
     try {
@@ -230,6 +237,42 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigate }) =>
           </div>
 
           <div className="overflow-x-auto">
+            {/* Bioscience & Cohort Filter Sub-bar */}
+            <div className="px-4 py-2.5 bg-gradient-to-r from-slate-50 via-emerald-50/30 to-indigo-50/30 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2">
+              <div className="flex items-center gap-1.5">
+                <button
+                  onClick={() => setCohortFilter('all')}
+                  className={`px-2.5 py-1 text-xs font-semibold rounded-lg transition-all ${
+                    cohortFilter === 'all'
+                      ? 'bg-white text-slate-800 shadow-xs border border-slate-200'
+                      : 'text-slate-500 hover:text-slate-800 hover:bg-white/60'
+                  }`}
+                >
+                  All Cohorts ({stats?.recentStudents.length || 0})
+                </button>
+                <button
+                  onClick={() => setCohortFilter('bioinformatics')}
+                  className={`px-2.5 py-1 text-xs font-semibold rounded-lg flex items-center gap-1.5 transition-all ${
+                    cohortFilter === 'bioinformatics'
+                      ? 'bg-emerald-600 text-white shadow-xs shadow-emerald-500/20'
+                      : 'text-emerald-700 bg-emerald-100/60 hover:bg-emerald-200/60'
+                  }`}
+                >
+                  <Dna className="w-3.5 h-3.5" />
+                  <span>Bioinformatics Lab</span>
+                </button>
+              </div>
+
+              <button
+                onClick={() => setShowScienceWorkbench(true)}
+                className="inline-flex items-center gap-1.5 px-3 py-1 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white rounded-lg text-xs font-semibold shadow-xs transition-all hover:shadow"
+              >
+                <Atom className="w-3.5 h-3.5" />
+                <span>Launch Science Workbench</span>
+                <span className="text-[10px] bg-emerald-950/40 px-1.5 py-0.5 rounded text-emerald-100 font-mono">AlphaFold · PubChem</span>
+              </button>
+            </div>
+
             <table className="w-full text-left text-xs">
               <thead className="bg-slate-50 text-slate-600 border-b border-slate-200">
                 <tr>
@@ -242,34 +285,81 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigate }) =>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {stats?.recentStudents.map((student) => (
-                  <tr key={student.id} className="hover:bg-slate-50/50 transition-colors">
-                    <td className="py-3 px-4 font-semibold text-slate-900">
-                      <div>{student.fullName}</div>
-                      <div className="text-[11px] text-slate-400 font-normal">{student.email}</div>
-                    </td>
-                    <td className="py-3 px-4 font-mono text-slate-700 tabular-nums">
-                      {student.rollNumber}
-                    </td>
-                    <td className="py-3 px-4 text-slate-600">
-                      {student.courseCode} · Sem {student.semester}
-                    </td>
-                    <td className="py-3 px-4 text-right font-mono font-medium text-slate-900 tabular-nums">
-                      {student.attendancePercentage}%
-                    </td>
-                    <td className="py-3 px-4 text-center">
-                      <Badge status={student.academicStatus} />
-                    </td>
-                    <td className="py-3 px-4 text-right">
-                      <button
-                        onClick={() => setSelectedStudentId(student.id)}
-                        className="text-indigo-600 hover:text-indigo-800 font-semibold text-[11px]"
-                      >
-                        View Profile
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                {(cohortFilter === 'bioinformatics'
+                  ? stats?.recentStudents.filter((s) => s.courseCode === 'BSCBIO' || s.courseName?.toLowerCase().includes('bio')) || []
+                  : stats?.recentStudents || []
+                ).map((student) => {
+                  const isBio = student.courseCode === 'BSCBIO';
+                  return (
+                    <tr
+                      key={student.id}
+                      className={`hover:bg-slate-50/60 transition-colors ${
+                        isBio ? 'bg-emerald-50/20' : ''
+                      }`}
+                    >
+                      <td className="py-3 px-4 font-semibold text-slate-900">
+                        <div className="flex items-center gap-1.5">
+                          {student.fullName}
+                          {isBio && (
+                            <span className="inline-flex items-center gap-0.5 text-[10px] font-bold text-emerald-700 bg-emerald-100/80 px-1.5 py-0.5 rounded">
+                              <Dna className="w-2.5 h-2.5" /> Bio
+                            </span>
+                          )}
+                        </div>
+                        <div className="text-[11px] text-slate-400 font-normal">{student.email}</div>
+                      </td>
+                      <td className="py-3 px-4 font-mono text-slate-700 tabular-nums">
+                        {student.rollNumber}
+                      </td>
+                      <td className="py-3 px-4 text-slate-600">
+                        <span className="font-semibold text-slate-800">{student.courseCode}</span> · Sem {student.semester}
+                      </td>
+                      <td className="py-3 px-4 text-right font-mono font-medium text-slate-900 tabular-nums">
+                        {student.attendancePercentage}%
+                      </td>
+                      <td className="py-3 px-4 text-center">
+                        <Badge status={student.academicStatus} />
+                      </td>
+                      <td className="py-3 px-4 text-right space-x-2">
+                        {isBio && (
+                          <button
+                            onClick={() => setShowScienceWorkbench(true)}
+                            className="text-emerald-700 hover:text-emerald-900 font-semibold text-[11px] inline-flex items-center gap-0.5 bg-emerald-50 hover:bg-emerald-100 px-2 py-0.5 rounded transition"
+                            title="Open Science Workbench with AlphaFold 3D model & PubChem"
+                          >
+                            <FlaskConical className="w-3 h-3" />
+                            <span>Lab</span>
+                          </button>
+                        )}
+                        <button
+                          onClick={() => setSelectedStudentId(student.id)}
+                          className="text-indigo-600 hover:text-indigo-800 font-semibold text-[11px]"
+                        >
+                          View Profile
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+                {cohortFilter === 'bioinformatics' &&
+                  (stats?.recentStudents.filter((s) => s.courseCode === 'BSCBIO' || s.courseName?.toLowerCase().includes('bio')).length || 0) === 0 && (
+                    <tr>
+                      <td colSpan={6} className="py-8 text-center text-slate-500">
+                        <Dna className="w-8 h-8 text-emerald-500 mx-auto mb-2 opacity-60" />
+                        <p className="text-sm font-semibold text-slate-700">Bioinformatics Cohort Records</p>
+                        <p className="text-xs text-slate-500 max-w-sm mx-auto mt-1">
+                          Enrolled students Maya Lin-Franklin and Liam Watson are registered in B.Sc. Bioinformatics. Click below to launch the DeepMind Science lab or view the full directory.
+                        </p>
+                        <button
+                          onClick={() => setShowScienceWorkbench(true)}
+                          className="mt-3 px-3 py-1.5 text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg inline-flex items-center gap-1.5 shadow-xs"
+                        >
+                          <FlaskConical className="w-3.5 h-3.5" />
+                          <span>Launch Bioscience Lab Workbench</span>
+                        </button>
+                      </td>
+                    </tr>
+                  )}
               </tbody>
             </table>
           </div>
@@ -326,6 +416,36 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onNavigate }) =>
         studentId={selectedStudentId}
         canEdit={true}
       />
+
+      {showScienceWorkbench && (
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/70 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6">
+          <div className="relative w-full max-w-6xl bg-white rounded-2xl shadow-2xl overflow-hidden my-auto max-h-[94vh] flex flex-col border border-slate-700/50">
+            <div className="p-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
+              <div className="flex items-center gap-2.5">
+                <div className="p-2 bg-emerald-500/20 text-emerald-400 rounded-lg">
+                  <Dna className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-sm text-slate-100 flex items-center gap-2">
+                    Bioscience & Molecular Computing Workbench
+                    <span className="text-[10px] bg-emerald-500/30 text-emerald-300 px-2 py-0.5 rounded-full font-mono">AlphaFold DB · PubChem · PubMed</span>
+                  </h3>
+                  <p className="text-xs text-slate-400">Department of Computational Biology & Genomics · Real-time Science APIs</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowScienceWorkbench(false)}
+                className="text-slate-300 hover:text-white px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 border border-slate-700 transition"
+              >
+                Close Lab ✕
+              </button>
+            </div>
+            <div className="overflow-y-auto flex-1 p-4 bg-slate-50">
+              <BioscienceWorkbench />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
