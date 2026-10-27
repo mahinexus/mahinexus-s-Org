@@ -1,0 +1,6 @@
+{
+  "name": "CampusCore - Student Management System",
+  "description": "Full-stack College Student Management System with role-based access control, attendance tracking, marks grading, and academic analytics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
